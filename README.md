@@ -11,11 +11,5 @@ cargo run --release
 
 ## Result:
 
-```
-CPU Benchmark in Rust
-Single-thread result: 2666666666466666666670000000000
-Single-thread time: 18.41s
-Core numbers detected: 8
-Multi-thread result: 2666666666466666666670000000000
-Multi-thread time: 4.86s
-```
+![image](https://github.com/user-attachments/assets/1fd75230-6929-48f1-b261-d05a22ba1a1e)
+
