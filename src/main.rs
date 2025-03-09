@@ -8,7 +8,8 @@ const ITERATIONS: u128 = 20_000_000_000;
 fn compute_range(start: u128, end: u128) -> u128 {
     let mut sum: u128 = 0;
     for i in start..end {
-        sum = sum.wrapping_add(black_box(i.wrapping_mul(i))); // black_box previene optimización agresiva
+        // Performs a * b + c operation (i * i + i) with wrapping and black_box to accurately benchmark cpu performance.
+        sum = sum.wrapping_add(black_box(i.wrapping_mul(i).wrapping_add(i)));
     }
     sum
 }
