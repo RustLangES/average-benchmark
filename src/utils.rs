@@ -2,7 +2,7 @@ use std::io;
 
 pub fn ask_to_send() -> bool {
     println!("¿Desea enviar los datos de la prueba al servidor? (y/n)");
-
+    println!("(Tu información solo se usará para generar un reporte en Discord y no se almacenará en ninguna base de datos.)");
     let mut respuesta: String = String::new();
 
     loop {
