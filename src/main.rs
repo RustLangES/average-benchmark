@@ -8,6 +8,7 @@ use num_cpus;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     utils::display_banner();
+    utils::display_privacy_policy();
     
     let score_single_thread: f64 = benchmark::benchmark_single_thread();
 
