@@ -6,7 +6,7 @@ use std::time::Instant;
 use reqwest::header::HeaderMap;
 use serde_json::Value;
 use serde_json::json;
-use chrono::{DateTime};
+use chrono::DateTime;
 
 const ITERATIONS: u128 = 1_000_000_000;
 
@@ -135,7 +135,6 @@ fn ask_to_send() -> bool {
 
 async fn send_data(score_single_thread: u128, score_multi_thread: u128) -> Result<(), Box<dyn std::error::Error>> {
     use sysinfo::System;
-    // CPUs and processes are filled!
     let mut sys = System::new_all();
     sys.refresh_all();
     
@@ -167,8 +166,6 @@ async fn send_data(score_single_thread: u128, score_multi_thread: u128) -> Resul
     let response = request.send().await?;
     let body = response.text().await?;
     let parsed: Value = serde_json::from_str(&body)?;
-    
-    
 
     let success = parsed["success"].as_bool() == Some(true);
     let message_type = if success { "Message" } else { "Error" };
@@ -188,8 +185,6 @@ async fn send_data(score_single_thread: u128, score_multi_thread: u128) -> Resul
     println!("\x1B[{}m{}: {}\x1B[0m", color_code, message_type, content);
     println!("\x1B[{}mTimestamp: {}\x1B[0m", color_code, timestamp);
 
-    
-    // ...existing code...
     Ok(())
 }
 
