@@ -11,5 +11,5 @@ cargo run --release
 
 ## Result:
 
-![image](https://github.com/user-attachments/assets/1fd75230-6929-48f1-b261-d05a22ba1a1e)
+![image](https://github.com/user-attachments/assets/49405dff-0b10-454a-95ae-d8bc7b45722d)
 
