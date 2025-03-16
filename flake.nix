@@ -30,7 +30,9 @@
     in {
       formatter = pkgs.alejandra;
       devShells.default = craneLib.devShell {
-        packages = [toolchain];
+        packages = with pkgs; [ toolchain openssl pkg-config ];
+
+	nativeBuildInputs = [ pkgs.pkg-config ];
       };
     });
 }
