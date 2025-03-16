@@ -11,7 +11,6 @@ use handlers::submit_tests;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-
     // Rate limiter setting: 5 requests per hour
     let rate_limiter = RateLimiterMiddleware::new(5, 3600);
 
@@ -20,7 +19,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(rate_limiter.clone())
             .route("/submit-tests", web::post().to(submit_tests))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 8080))?
     .run()
     .await
 }
