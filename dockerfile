@@ -15,11 +15,11 @@ FROM chef AS builder
 COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
-RUN cargo build --release -p web-hook
+RUN cargo build --release -p api
 
 FROM debian:bookworm-slim
 
 WORKDIR /app
-COPY --from=builder /app/target/release/web-hook /app/
+COPY --from=builder /app/target/release/api /app/
 
-CMD ["/app/web-hook"]
+CMD ["/app/api"]
