@@ -27,6 +27,7 @@ ENTRYPOINT ["/app/api"]
 # Imagen de Benchmark
 FROM debian:bookworm-slim AS benchmark
 WORKDIR /app
+RUN apt-get update && apt-get install -y libssl-dev
 COPY --from=builder /app/target/release/benchmark /app/
 COPY benchmark/PRIVACY.md /app/
 ENTRYPOINT ["/app/benchmark"]
