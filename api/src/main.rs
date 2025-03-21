@@ -6,7 +6,7 @@ mod models;
 mod handlers;
 
 use rate_limiter::RateLimiterMiddleware;
-use handlers::submit_tests;
+use handlers::{submit_tests, health_check};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -17,6 +17,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(rate_limiter.clone())
+            .route("/health", web::get().to(health_check))
             .route("/submit-tests", web::post().to(submit_tests))
     })
     .bind(("0.0.0.0", 8080))?
