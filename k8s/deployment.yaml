@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-benchmark-api
+  namespace: average-benchmark
+  labels:
+    app: cpu-benchmark-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-benchmark-api
+  template:
+    metadata:
+      labels:
+        app: cpu-benchmark-api
+    spec:
+      containers:
+      - name: cpu-benchmark-api
+        image: theaverageunknown/cpu-benchmark-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DISCORD_WEBHOOK_URL
+          valueFrom:
+            secretKeyRef:
+              name: discord-webhook-secret
+              key: DISCORD_WEBHOOK_URL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10

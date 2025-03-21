@@ -1,2 +1,4 @@
 target/
 the-average-benchmark-api/.env
+.env
+k8s/secret.yaml
