@@ -7,15 +7,19 @@ mod handlers;
 
 use rate_limiter::RateLimiterMiddleware;
 use handlers::{submit_tests, health_check};
+use std::env;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+    let webhook_url = env::var("DISCORD_WEBHOOK_URL")
+        .expect("Error: DISCORD_WEBHOOK_URL is't set in .env file");
     // Rate limiter setting: 5 requests per hour
     let rate_limiter = RateLimiterMiddleware::new(5, 3600);
 
     HttpServer::new(move || {
         App::new()
+        .app_data(web::Data::new(webhook_url.clone())) // Inject webhook URL
             // The /health route is outside the rate limiter because k8s need to use it for check status.
             .route("/health", web::get().to(health_check))
             // Set a ratelimit for submit-tests

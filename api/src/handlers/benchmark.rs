@@ -2,15 +2,13 @@ use actix_web::{HttpResponse, Responder, web};
 use chrono::Utc;
 use reqwest;
 use serde_json::json;
-use std::env;
 
 use crate::models::CpuInfo;
 
-pub async fn submit_tests(info: web::Json<CpuInfo>) -> impl Responder {
-    let webhook_url = env::var("DISCORD_WEBHOOK_URL").unwrap_or_else(|_| "".to_string());
-    if webhook_url.is_empty() {
-        return HttpResponse::InternalServerError().body("Error: DISCORD_WEBHOOK_URL no está configurada");
-    }
+pub async fn submit_tests(
+    info: web::Json<CpuInfo>,
+    webhook_url: web::Data<String>
+  ) -> impl Responder {
     let timestamp = Utc::now().to_rfc3339();
 
     let payload = json!({
@@ -36,8 +34,7 @@ pub async fn submit_tests(info: web::Json<CpuInfo>) -> impl Responder {
     });
 
     let client = reqwest::Client::new();
-    let res = client.post(webhook_url).json(&payload).send().await;
-
+    let res = client.post(webhook_url.get_ref()).json(&payload).send().await;
     match res {
         Ok(response) if response.status().is_success() => {
             HttpResponse::Ok()
