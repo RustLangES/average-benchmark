@@ -8,9 +8,12 @@ mod handlers;
 use rate_limiter::RateLimiterMiddleware;
 use handlers::{submit_tests, health_check};
 use std::env;
+use log::debug;
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
     dotenv().ok();
     let webhook_url = env::var("DISCORD_WEBHOOK_URL")
         .expect("Error: DISCORD_WEBHOOK_URL is't set in .env file");
@@ -18,6 +21,7 @@ async fn main() -> std::io::Result<()> {
     let rate_limiter = RateLimiterMiddleware::new(5, 3600);
 
     HttpServer::new(move || {
+        debug!("Starting new server instance");
         App::new()
         .app_data(web::Data::new(webhook_url.clone())) // Inject webhook URL
             // The /health route is outside the rate limiter because k8s need to use it for check status.

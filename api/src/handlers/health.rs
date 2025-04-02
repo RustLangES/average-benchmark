@@ -1,7 +1,9 @@
 use actix_web::{HttpResponse, Responder};
+use log::debug;
 use reqwest::Client;
 
 pub async fn health_check() -> impl Responder {
+    debug!("Health check endpoint hit");
     let client = Client::new();
     let webhook_url = "https://discord.com/api/webhooks/token";
     
@@ -14,11 +16,13 @@ pub async fn health_check() -> impl Responder {
         };
 
     if webhook_status {
+        debug!("Webhook is reachable");
         HttpResponse::Ok().json(serde_json::json!({
             "status": "ok",
             "message": "Service and webhook are healthy"
         }))
     } else {
+        debug!("Webhook is not healthy");
         HttpResponse::InternalServerError().json(serde_json::json!({
             "status": "error",
             "message": "Service is healthy but webhook is not reachable"
