@@ -17,15 +17,9 @@ pub async fn health_check() -> impl Responder {
 
     if webhook_status {
         debug!("Webhook is reachable");
-        HttpResponse::Ok().json(serde_json::json!({
-            "status": "ok",
-            "message": "Service and webhook are healthy"
-        }))
+        HttpResponse::Ok().finish()
     } else {
         debug!("Webhook is not healthy");
-        HttpResponse::InternalServerError().json(serde_json::json!({
-            "status": "error",
-            "message": "Service is healthy but webhook is not reachable"
-        }))
+        HttpResponse::GatewayTimeout().finish()
     }
 }
