@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cpu-benchmark-api
+  name: benchmark-api
   namespace: average-benchmark
   labels:
-    app: cpu-benchmark-api
+    app: benchmark-api
 spec:
   type: NodePort
-  ports:
-  - port: 8080
-    targetPort: 8080
-    protocol: TCP
-    name: http
   selector:
-    app: cpu-benchmark-api 
+    app: benchmark-api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
