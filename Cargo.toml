@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "benchmark",
+    "average-benchmark",
     "api"
 ]
 resolver = "2"

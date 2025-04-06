@@ -331,6 +331,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 
 [[package]]
+name = "average-benchmark"
+version = "0.1.1"
+dependencies = [
+ "chrono",
+ "num_cpus",
+ "reqwest",
+ "serde_json",
+ "sysinfo",
+ "tokio",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -356,18 +368,6 @@ name = "base64"
 version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
-
-[[package]]
-name = "benchmark"
-version = "0.1.1"
-dependencies = [
- "chrono",
- "num_cpus",
- "reqwest",
- "serde_json",
- "sysinfo",
- "tokio",
-]
 
 [[package]]
 name = "bitflags"
