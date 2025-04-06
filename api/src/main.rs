@@ -36,6 +36,7 @@ async fn main() -> std::io::Result<()> {
         )
             // The /health route is outside the rate limiter because k8s need to use it for check status.
             .route("/health", web::get().to(health_check))
+            .route("/health", web::head().to(health_check))
             // Set a ratelimit for submit-tests
             .service(
                 web::scope("")
