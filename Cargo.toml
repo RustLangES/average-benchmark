@@ -3,3 +3,4 @@ members = [
     "benchmark",
     "api"
 ]
+resolver = "2"

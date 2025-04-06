@@ -1,6 +1,8 @@
 [package]
 name = "benchmark"
-version = "0.1.0"
+description = "A benchmarking tool for performance cpu analysis"
+license = "MIT"
+version = "0.1.1"
 edition = "2021"
 publish = true
 
