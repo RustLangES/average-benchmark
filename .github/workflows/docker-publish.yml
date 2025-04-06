@@ -30,6 +30,6 @@ jobs:
       - name: Build and Push Benchmark Docker Image
         run: |
           VERSION=$(date +%Y%m%d-%H%M)
-          docker build --target=benchmark -t theaverageunknown/cpu-benchmark:latest -t theaverageunknown/cpu-benchmark:$VERSION .
+          docker build --target=average-benchmark -t theaverageunknown/cpu-benchmark:latest -t theaverageunknown/cpu-benchmark:$VERSION .
           docker push theaverageunknown/cpu-benchmark:latest
           docker push theaverageunknown/cpu-benchmark:$VERSION

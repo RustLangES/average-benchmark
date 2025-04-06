@@ -1,4 +1,6 @@
+use actix_cors::Cors;
 use actix_web::{App, HttpServer, web};
+use actix_web::http::header;
 use dotenv::dotenv;
 
 mod rate_limiter;
@@ -24,6 +26,14 @@ async fn main() -> std::io::Result<()> {
         debug!("Starting new server instance");
         App::new()
         .app_data(web::Data::new(webhook_url.clone())) // Inject webhook URL
+        .wrap(
+            Cors::default()
+                .allowed_origin("https://average-benchmark-api.rustlang-es.org")
+                .allowed_origin("http://average-benchmark-api.rustlang-es.org")
+                .allowed_methods(vec!["GET", "POST"])
+                .allowed_headers(vec![header::CONTENT_TYPE])
+                .max_age(3600)
+        )
             // The /health route is outside the rate limiter because k8s need to use it for check status.
             .route("/health", web::get().to(health_check))
             // Set a ratelimit for submit-tests
