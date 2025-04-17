@@ -9,7 +9,7 @@ pub async fn send_data(system_info: Value) -> Result<(), Box<dyn std::error::Err
     headers.insert("Content-Type", "application/json".parse()?);
 
     let request = client
-        .request(reqwest::Method::POST, "http://average-benchmark-api.rustlang-es.org/submit-tests")
+        .request(reqwest::Method::POST, format!("{}/submit-tests", env!("BACKEND_URL")))
         .headers(headers)
         .json(&system_info);
 
@@ -34,6 +34,5 @@ pub async fn send_data(system_info: Value) -> Result<(), Box<dyn std::error::Err
 
     println!("\x1B[{}m{}: {}\x1B[0m", color_code, message_type, content);
     println!("\x1B[{}mTimestamp: {}\x1B[0m", color_code, timestamp);
-
     Ok(())
 } 
