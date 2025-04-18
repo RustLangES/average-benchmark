@@ -49,3 +49,9 @@ DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..." cargo run --bin api
 ```
 
 o colocar un .env con la variable `DISCORD_WEBHOOK_URL` en la raíz del proyecto.
+
+Si quieres cambiar el dominio del backend puede usar la variable de entorno de tu sistema `BACKEND_URL`
+Ejemplo:
+```
+export BACKEND_URL="http://localhost:8080" && cargo run --bin average-benchmark --release
+```
