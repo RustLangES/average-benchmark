@@ -1,24 +1,30 @@
+use log::{info, warn};
 use serde_json::json;
 use serde_json::Value;
-use sysinfo::System;
 use std::fs;
 use std::io::{self, BufRead};
 use std::process::Command;
-use log::{info, warn};
+use sysinfo::System;
 
 fn run_command_output(cmd: &str, args: &[&str]) -> Option<String> {
     match Command::new(cmd).args(args).output() {
         Ok(output) => {
             let out = String::from_utf8_lossy(&output.stdout).trim().to_string();
             if out.is_empty() {
-                warn!("El comando `{}` con args {:?} devolvió salida vacía.", cmd, args);
+                warn!(
+                    "El comando `{}` con args {:?} devolvió salida vacía.",
+                    cmd, args
+                );
                 None
             } else {
                 Some(out)
             }
         }
         Err(e) => {
-            warn!("Error al ejecutar el comando `{}` con args {:?}: {:?}", cmd, args, e);
+            warn!(
+                "Error al ejecutar el comando `{}` con args {:?}: {:?}",
+                cmd, args, e
+            );
             None
         }
     }
@@ -127,10 +133,14 @@ pub fn get_system_info(score_single_thread: f64, score_multi_thread: f64) -> Val
 
     let final_cpu_vendor = match sys_vendor_id {
         Some(ref v) if !v.is_empty() && v != "Unknown Vendor" => v.clone(),
-        _ => fallback.cpu_vendor_id.unwrap_or_else(|| "Unknown Vendor".to_string()),
+        _ => fallback
+            .cpu_vendor_id
+            .unwrap_or_else(|| "Unknown Vendor".to_string()),
     };
 
-    let final_cpu_brand = sys_cpu_brand.filter(|s| !s.is_empty()).or(fallback.cpu_brand);
+    let final_cpu_brand = sys_cpu_brand
+        .filter(|s| !s.is_empty())
+        .or(fallback.cpu_brand);
 
     let final_cpu_frequency = match max_sys_cpu_frequency {
         Some(freq) if freq > 0 => Some(freq),

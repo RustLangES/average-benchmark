@@ -25,25 +25,25 @@ impl RateLimiter {
     pub fn is_rate_limited(&self, ip: &str) -> bool {
         let now = Instant::now();
         let window = Duration::from_secs(self.window_size);
-        
+
         let mut clients = match self.clients.lock() {
             Ok(guard) => guard,
             Err(poisoned) => {
                 eprintln!("Error al obtener el lock del Mutex: {:?}", poisoned);
-                return true; // no confiamos porque ha sido poisoned, así que lo limitamos  
+                return true; // no confiamos porque ha sido poisoned, así que lo limitamos
             }
         };
-        
+
         let timestamps = clients.entry(ip.to_string()).or_insert_with(Vec::new);
-        
+
         // Remove timestamps that are outside the time window
         timestamps.retain(|&timestamp| now.duration_since(timestamp) < window);
-        
+
         if timestamps.len() >= self.max_requests {
             return true;
         }
-        
+
         timestamps.push(now);
         false
     }
-} 
+}

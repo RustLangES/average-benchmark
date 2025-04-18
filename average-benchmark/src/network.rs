@@ -1,6 +1,6 @@
+use chrono::DateTime;
 use reqwest::header::HeaderMap;
 use serde_json::Value;
-use chrono::DateTime;
 
 pub async fn send_data(system_info: Value) -> Result<(), Box<dyn std::error::Error>> {
     let client = reqwest::Client::builder().build()?;
@@ -9,7 +9,10 @@ pub async fn send_data(system_info: Value) -> Result<(), Box<dyn std::error::Err
     headers.insert("Content-Type", "application/json".parse()?);
 
     let request = client
-        .request(reqwest::Method::POST, format!("{}/submit-tests", env!("BACKEND_URL")))
+        .request(
+            reqwest::Method::POST,
+            concat!(env!("BACKEND_URL"), "/submit-tests"),
+        )
         .headers(headers)
         .json(&system_info);
 
@@ -34,5 +37,6 @@ pub async fn send_data(system_info: Value) -> Result<(), Box<dyn std::error::Err
 
     println!("\x1B[{}m{}: {}\x1B[0m", color_code, message_type, content);
     println!("\x1B[{}mTimestamp: {}\x1B[0m", color_code, timestamp);
+
     Ok(())
-} 
+}

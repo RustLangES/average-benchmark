@@ -39,9 +39,12 @@ pub fn display_banner() {
                                                                                      ##:
                                                                                     =#"#;
     println!("\x1B[34m{}\x1B[0m", banner);
-} 
+}
 
-pub fn display_privacy_policy(){
+pub fn display_privacy_policy() {
     println!("\x1B[34m{}\x1B[0m", "ℹ️  Esta aplicación enviará información sobre tu CPU y sistema operativo a un webhook de Discord.");
-    println!("\x1B[34m{}\x1B[0m", "📜 Puedes revisar los detalles en el archivo PRIVACY.md en el repositorio.")
+    println!(
+        "\x1B[34m{}\x1B[0m",
+        "📜 Puedes revisar los detalles en el archivo PRIVACY.md en el repositorio."
+    )
 }
