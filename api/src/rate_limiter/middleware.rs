@@ -1,11 +1,14 @@
-use actix_web::{dev::{Service, ServiceRequest, ServiceResponse, Transform}, Error, HttpResponse, ResponseError};
-use std::future::{ready, Ready, Future};
-use std::pin::Pin;
-use std::sync::Arc;
-use std::task::{Context, Poll};
+use actix_web::{
+    dev::{Service, ServiceRequest, ServiceResponse, Transform},
+    Error, HttpResponse, ResponseError,
+};
 use chrono::Utc;
 use serde_json::json;
 use std::fmt;
+use std::future::{ready, Future, Ready};
+use std::pin::Pin;
+use std::sync::Arc;
+use std::task::{Context, Poll};
 
 use super::RateLimiter;
 
@@ -25,7 +28,7 @@ impl ResponseError for RateLimitError {
             "error": "Rate limit excedido. Por favor, inténtalo más tarde.",
             "timestamp": Utc::now().to_rfc3339()
         });
-        
+
         HttpResponse::TooManyRequests()
             .content_type("application/json")
             .json(json_error)
@@ -88,19 +91,17 @@ where
     }
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
-        let ip = req.connection_info().peer_addr()
+        let ip = req
+            .connection_info()
+            .peer_addr()
             .unwrap_or("unknown")
             .to_string();
-        
+
         if self.limiter.is_rate_limited(&ip) {
-            return Box::pin(async move {
-                Err(RateLimitError.into())
-            });
+            return Box::pin(async move { Err(RateLimitError.into()) });
         }
-        
+
         let fut = self.service.call(req);
-        Box::pin(async move {
-            fut.await
-        })
+        Box::pin(async move { fut.await })
     }
-} 
+}

@@ -33,7 +33,10 @@ pub fn benchmark_single_thread() -> f64 {
         duration.as_secs_f64()
     );
     println!("\x1B[33mSingle-thread result\x1B[0m: {:.3e}", result);
-    println!("\x1B[32mSingle-thread score\x1B[0m: {}", format!("{:.3}", score));
+    println!(
+        "\x1B[32mSingle-thread score\x1B[0m: {}",
+        format!("{:.3}", score)
+    );
     return score;
 }
 
@@ -88,7 +91,10 @@ pub fn benchmark_multi_thread(num_threads: usize) -> f64 {
         duration
     );
     println!("\x1B[33mMulti-thread result\x1B[0m: {:.3e}", total_sum);
-    println!("\x1B[32mMulti-thread score\x1B[0m: {}", format!("{:.3}", score));
+    println!(
+        "\x1B[32mMulti-thread score\x1B[0m: {}",
+        format!("{:.3}", score)
+    );
 
     println!(
         "\x1B[33mMin thread time\x1B[0m: {:.2?} (\x1B[32mThread {}\x1B[0m)",
@@ -99,4 +105,4 @@ pub fn benchmark_multi_thread(num_threads: usize) -> f64 {
         max_time, max_thread
     );
     return score;
-} 
+}

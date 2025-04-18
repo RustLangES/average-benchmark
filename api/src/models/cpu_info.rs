@@ -10,4 +10,4 @@ pub struct CpuInfo {
     pub score_single_thread: String,
     pub system_host_name: String,
     pub system_info: String,
-} 
+}

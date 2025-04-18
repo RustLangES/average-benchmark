@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse, Responder, web};
+use actix_web::{web, HttpResponse, Responder};
 use chrono::Utc;
 use reqwest;
 use serde_json::json;
@@ -7,8 +7,8 @@ use crate::models::CpuInfo;
 
 pub async fn submit_tests(
     info: web::Json<CpuInfo>,
-    webhook_url: web::Data<String>
-  ) -> impl Responder {
+    webhook_url: web::Data<String>,
+) -> impl Responder {
     let timestamp = Utc::now().to_rfc3339();
 
     let payload = json!({
@@ -34,17 +34,19 @@ pub async fn submit_tests(
     });
 
     let client = reqwest::Client::new();
-    let res = client.post(webhook_url.get_ref()).json(&payload).send().await;
+    let res = client
+        .post(webhook_url.get_ref())
+        .json(&payload)
+        .send()
+        .await;
     match res {
-        Ok(response) if response.status().is_success() => {
-            HttpResponse::Ok()
-                .content_type("application/json")
-                .json(json!({
-                    "success": true,
-                    "message": "Webhook enviado correctamente",
-                    "timestamp": Utc::now().to_rfc3339()
-                }))
-        }
+        Ok(response) if response.status().is_success() => HttpResponse::Ok()
+            .content_type("application/json")
+            .json(json!({
+                "success": true,
+                "message": "Webhook enviado correctamente",
+                "timestamp": Utc::now().to_rfc3339()
+            })),
         Ok(response) => HttpResponse::InternalServerError()
             .content_type("application/json")
             .json(json!({
@@ -63,4 +65,4 @@ pub async fn submit_tests(
                 }))
         }
     }
-} 
+}
