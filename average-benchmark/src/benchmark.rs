@@ -73,7 +73,7 @@ pub fn benchmark_multi_thread(num_threads: usize) -> f64 {
                 },
             )
             .for_each(|x| {
-                let _ = tx.send((x.0, x.1));
+                let _ = tx.send(x);
             });
 
         let duration = start.elapsed();
