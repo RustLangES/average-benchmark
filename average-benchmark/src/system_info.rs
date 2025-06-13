@@ -62,7 +62,6 @@ fn get_max_cpu_frequency() -> Option<u64> {
 fn get_cpu_info_fallback() -> CpuInfo {
     let cpuinfo_path = "/proc/cpuinfo";
     let mut cpu_brand: Option<String> = None;
-    let mut cpu_vendor_id: Option<String> = None;
     let mut number_of_cpus = 0;
 
     match fs::File::open(cpuinfo_path) {
@@ -98,7 +97,8 @@ fn get_cpu_info_fallback() -> CpuInfo {
     if cpu_brand.is_none() {
         cpu_brand = get_prop("ro.soc.model");
     }
-    cpu_vendor_id = get_prop("ro.soc.manufacturer");
+
+    let cpu_vendor_id = get_prop("ro.soc.manufacturer");
 
     CpuInfo {
         cpu_brand,
