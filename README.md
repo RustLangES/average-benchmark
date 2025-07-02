@@ -55,3 +55,6 @@ Ejemplo:
 ```
 export BACKEND_URL="http://localhost:8080" && cargo run --bin average-benchmark --release
 ```
+Estado del servidor:
+https://stats.uptimerobot.com/ELkM7RTtrI/799399383
+![image](https://github.com/user-attachments/assets/71d69511-b2ea-4cc4-a551-6ed9d6a8ea1a)
